@@ -12,7 +12,6 @@ import student_attendance.response.lesson_response.GetLessonByIdResponse;
 import student_attendance.response.student_response.GetStudentByIdResponse;
 import student_attendance.service.service_interface.ILessonService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,19 +19,29 @@ public class LessonService implements ILessonService {
     @Autowired
     private ILessonRepository lessonRepository;
     @Autowired
-    private ILessonAttendanceRepository attendanceListRepository;
+    private ILessonAttendanceRepository lessonAttendanceRepository;
     @Autowired
     private IStudentGroupRepository studentGroupRepository;
+    @Autowired
+    private IStudentRepository studentRepository;
     @Autowired
     private ITeacherRepository teacherRepository;
     @Autowired
     private ISubjectRepository subjectRepository;
 
     @Override
-    public AddLessonResponse add(AddLessonRequest request) throws NotFoundService {
+    public AddLessonResponse add(AddLessonRequest request) throws ServiceException {
         studentGroupRepository.findById(request.getGroupId()).orElseThrow(() -> new NotFoundService("invalid group id"));
         teacherRepository.findById(request.getTeacherId()).orElseThrow(() -> new NotFoundService("invalid teacher id"));
         subjectRepository.findById(request.getSubjectId()).orElseThrow(() -> new NotFoundService("invalid subject id"));
+        List<String> attendanceList = request.getAttendanceList();
+        for (var id : attendanceList) {
+            Student student = studentRepository.findById(id).orElseThrow(() -> new ServiceException("invalid student id"));
+            String groupId = student.getGroup().getId();
+            if (!groupId.equals(request.getGroupId())) {
+                throw new ServiceException("all students from attendance list should be from group with id " + request.getGroupId());
+            }
+        }
         Lesson lesson = new Lesson(
                 null,
                 new Subject(request.getSubjectId(), null),
@@ -41,15 +50,13 @@ public class LessonService implements ILessonService {
                 new Teacher(request.getTeacherId(), null, null, null),
                 new StudentGroup(request.getGroupId(), null));
         lessonRepository.save(lesson);
-        List<LessonAttendance> lessonAttendance = new ArrayList<>(
+        LessonAttendance lessonAttendance = new LessonAttendance(
+                null, lesson,
                 request.getAttendanceList().stream()
-                        .map(o -> new LessonAttendance(null, lesson, new Student(o, null, null, null, null, null)))
+                        .map(o -> new Student(o, null, null, null, null, null))
                         .toList()
         );
-        for (var i : lessonAttendance) {
-            attendanceListRepository.save(i);
-        }
-//        attendanceListRepository.saveAll(lessonAttendance);
+        lessonAttendanceRepository.save(lessonAttendance);
         return new AddLessonResponse(lesson);
     }
 
@@ -64,14 +71,14 @@ public class LessonService implements ILessonService {
 
     }
 
-//    @Override
-//    public GetLessonByIdResponse getById(GetLessonByIdRequest request) throws NotFoundService {
-//        return new GetLessonByIdResponse(
-//                lessonRepository
-//                .findById(request.getId())
-//                .orElseThrow(() -> new NotFoundService("invalid lesson id")),
-//                attendanceListRepository.findById());
-//    }
+    @Override
+    public GetLessonByIdResponse getById(GetLessonByIdRequest request) throws NotFoundService {
+        return new GetLessonByIdResponse(
+                lessonRepository
+                .findById(request.getId())
+                .orElseThrow(() -> new NotFoundService("invalid lesson id")),
+                lessonAttendanceRepository.findAttendanceByLessonId(request.getId()));
+    }
 
     @Override
     public List<GetLessonByIdResponse> getByGroup(GetLessonsByGroupRequest request) throws NotFoundService {

@@ -40,7 +40,7 @@ public class GetLessonByIdResponse {
         students.addAll(list);
     }
 
-    public GetLessonByIdResponse(Lesson lesson, List<LessonAttendance> lessonAttendance) {
+    public GetLessonByIdResponse(Lesson lesson, LessonAttendance lessonAttendance) {
         this(
                 lesson.getId(),
                 new GetSubjectByIdResponse(lesson.getSubject()),
@@ -48,7 +48,7 @@ public class GetLessonByIdResponse {
                 lesson.getNumber(),
                 new GetTeacherByIdResponse(lesson.getTeacher()),
                 new GetStudentGroupByIdResponse(lesson.getGroup()),
-                lessonAttendance.stream().map(o -> new GetStudentByIdResponse(o.getStudent())).toList()
+                lessonAttendance.getStudents().stream().map(GetStudentByIdResponse::new).toList()
         );
     }
 }

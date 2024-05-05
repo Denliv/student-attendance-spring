@@ -10,13 +10,13 @@ import student_attendance.response.student_response.GetStudentByIdResponse;
 import java.util.List;
 
 public interface ILessonService {
-    AddLessonResponse add(AddLessonRequest request) throws NotFoundService;
+    AddLessonResponse add(AddLessonRequest request) throws ServiceException;
 
     void delete(DeleteLessonRequest request) throws NotFoundService;
 
     void edit(EditLessonRequest request) throws ServiceException;
 
-//    GetLessonByIdResponse getById(GetLessonByIdRequest request) throws NotFoundService;
+    GetLessonByIdResponse getById(GetLessonByIdRequest request) throws NotFoundService;
 
     List<GetLessonByIdResponse> getByGroup(GetLessonsByGroupRequest request) throws NotFoundService;
 

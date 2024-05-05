@@ -20,7 +20,7 @@ public class LessonController {
     }
 
     @PostMapping(value = "/addLesson")
-    public ResponseEntity<?> addLesson(@Valid @RequestBody AddLessonRequest request) throws NotFoundService {
+    public ResponseEntity<?> addLesson(@Valid @RequestBody AddLessonRequest request) throws ServiceException {
         return new ResponseEntity<>(lessonService.add(request), HttpStatus.OK);
     }
 
@@ -36,10 +36,10 @@ public class LessonController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @GetMapping("/getLessonById")
-//    public ResponseEntity<?> getLessonById(@Valid @RequestBody GetLessonByIdRequest request) throws NotFoundService {
-//        return new ResponseEntity<>(lessonService.getById(request), HttpStatus.OK);
-//    }
+    @GetMapping("/getLessonById")
+    public ResponseEntity<?> getLessonById(@Valid @RequestBody GetLessonByIdRequest request) throws NotFoundService {
+        return new ResponseEntity<>(lessonService.getById(request), HttpStatus.OK);
+    }
 
     @GetMapping("/getLessonByGroup")
     public ResponseEntity<?> getLessonByGroup(@Valid @RequestBody GetLessonsByGroupRequest request) throws NotFoundService {
