@@ -32,8 +32,8 @@ public class StudentService implements IStudentService {
                 request.getMiddleName(),
                 request.getStatus(),
                 new StudentGroup(request.getGroupId(), null));
-        studentRepository.save(student);
-        return new AddStudentResponse(student);
+        var save = studentRepository.save(student);
+        return new AddStudentResponse(save.getId());
     }
 
     @Override

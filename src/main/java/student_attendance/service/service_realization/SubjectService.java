@@ -25,8 +25,8 @@ public class SubjectService implements ISubjectService {
     public AddSubjectResponse add(AddSubjectRequest request) throws NotFoundService {
         Subject subject = new Subject(null,
                 request.getName());
-        subjectRepository.save(subject);
-        return new AddSubjectResponse(subject.getId());
+        var save = subjectRepository.save(subject);
+        return new AddSubjectResponse(save.getId());
     }
 
     @Override

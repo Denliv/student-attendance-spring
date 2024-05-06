@@ -25,8 +25,8 @@ public class StudentGroupService implements IStudentGroupService {
     @Override
     public AddStudentGroupResponse add(AddStudentGroupRequest request) {
         StudentGroup group = new StudentGroup(null, request.getName());
-        groupRepository.save(group);
-        return new AddStudentGroupResponse(group.getId(), group.getName());
+        var save = groupRepository.save(group);
+        return new AddStudentGroupResponse(save.getId(), save.getName());
     }
 
     @Override

@@ -27,8 +27,8 @@ public class TeacherService implements ITeacherService {
                 request.getLastName(),
                 request.getFirstName(),
                 request.getMiddleName());
-        teacherRepository.save(teacher);
-        return new AddTeacherResponse(teacher.getId());
+        var save = teacherRepository.save(teacher);
+        return new AddTeacherResponse(save.getId());
     }
 
     @Override

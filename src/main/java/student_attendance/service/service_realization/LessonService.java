@@ -51,10 +51,10 @@ public class LessonService implements ILessonService {
                 request.getNumber(),
                 new Teacher(request.getTeacherId(), null, null, null),
                 new StudentGroup(request.getGroupId(), null));
-        lessonRepository.save(lesson);
+        var lessonSave = lessonRepository.save(lesson);
         if (request.getAttendanceList() != null) {
             LessonAttendance lessonAttendance = new LessonAttendance(
-                    null, lesson, request.getAttendanceList().isEmpty()
+                    null, lessonSave, request.getAttendanceList().isEmpty()
                     ? new ArrayList<>()
                     : request.getAttendanceList().stream()
                     .map(o -> new Student(o, null, null, null, null, null))
@@ -62,7 +62,7 @@ public class LessonService implements ILessonService {
             );
             lessonAttendanceRepository.save(lessonAttendance);
         }
-        return new AddLessonResponse(lesson);
+        return new AddLessonResponse(lessonSave);
     }
 
     @Override
