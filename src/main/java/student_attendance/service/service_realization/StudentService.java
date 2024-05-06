@@ -38,13 +38,13 @@ public class StudentService implements IStudentService {
 
     @Override
     public void delete(DeleteStudentRequest request) throws NotFoundService {
-        studentRepository.findById(request.getId()).orElseThrow(() -> new NotFoundService("invalid user id"));
+        studentRepository.findById(request.getId()).orElseThrow(() -> new NotFoundService("invalid student id"));
         studentRepository.deleteById(request.getId());
     }
 
     @Override
     public void edit(EditStudentRequest request) throws ServiceException {
-        studentRepository.findById(request.getId()).orElseThrow(() -> new NotFoundService("invalid user id"));
+        studentRepository.findById(request.getId()).orElseThrow(() -> new NotFoundService("invalid student id"));
         studentGroupRepository.findById(request.getGroupId()).orElseThrow(() -> new NotFoundService("invalid group id"));
         studentRepository.update(request.getLastName(),
                 request.getFirstName(),
@@ -58,7 +58,7 @@ public class StudentService implements IStudentService {
     public GetStudentByIdResponse getById(GetStudentByIdRequest request) throws NotFoundService {
         return new GetStudentByIdResponse(studentRepository
                 .findById(request.getId())
-                .orElseThrow(() -> new NotFoundService("invalid user id")));
+                .orElseThrow(() -> new NotFoundService("invalid student id")));
     }
 
     @Override

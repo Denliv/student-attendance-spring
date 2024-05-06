@@ -77,7 +77,7 @@ public class StudentGroupServiceTests {
         //Arrange
         String id = UUID.randomUUID().toString();
         doAnswer(invocation -> {
-            throw new NotFoundService("invalid studentGroup id");
+            throw new NotFoundService("invalid group id");
         }).when(groupRepository).findById(id);
         DeleteStudentGroupRequest request = new DeleteStudentGroupRequest(id);
 
@@ -127,7 +127,7 @@ public class StudentGroupServiceTests {
         String id = UUID.randomUUID().toString();
         String newName = "newName";
         doAnswer(invocation -> {
-            throw new NotFoundService("invalid studentGroup id");
+            throw new NotFoundService("invalid group id");
         }).when(groupRepository).findById(id);
         EditStudentGroupRequest request = new EditStudentGroupRequest(id, newName);
 
@@ -157,7 +157,7 @@ public class StudentGroupServiceTests {
         //Arrange
         String id = UUID.randomUUID().toString();
         doAnswer(invocation -> {
-            throw new NotFoundService("invalid studentGroup id");
+            throw new NotFoundService("invalid group id");
         }).when(groupRepository).findById(id);
         GetStudentGroupByIdRequest request = new GetStudentGroupByIdRequest(id);
 

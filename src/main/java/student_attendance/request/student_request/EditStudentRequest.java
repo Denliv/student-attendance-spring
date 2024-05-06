@@ -33,13 +33,13 @@ public class EditStudentRequest {
     @Pattern(regexp = "[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$")
     private final String groupId;
 
-    @ConstructorProperties({"id", "lastName", "firstName", "middleName", "status", "group"})
-    public EditStudentRequest(String id, String lastName, String firstName, String middleName, String status, String group) {
+    @ConstructorProperties({"id", "lastName", "firstName", "middleName", "status", "groupId"})
+    public EditStudentRequest(String id, String lastName, String firstName, String middleName, String status, String groupId) {
         this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.middleName = middleName;
         this.status = status;
-        this.groupId = group;
+        this.groupId = groupId;
     }
 }

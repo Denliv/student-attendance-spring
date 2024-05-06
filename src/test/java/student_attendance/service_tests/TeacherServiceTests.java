@@ -142,7 +142,7 @@ public class TeacherServiceTests {
 
         //Assert
         assertNotNull(response);
-        assertEquals(new GetTeacherByIdResponse(id, lastName, firstName, middleName), response);
+        assertEquals(new GetTeacherByIdResponse(teacher), response);
     }
 
     @Test
