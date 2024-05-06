@@ -28,120 +28,159 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SubjectServiceTests {
-	@Mock
-	private ISubjectRepository subjectRepository;
-	@InjectMocks
-	private SubjectService subjectService;
+    @Mock
+    private ISubjectRepository subjectRepository;
+    @InjectMocks
+    private SubjectService subjectService;
 
-	@Test
-	void addTest() throws NotFoundService {
-		String id = UUID.randomUUID().toString();
-		String name = "Random_Name";
-		Subject subject = new Subject(id, name);
-		when(subjectRepository.save(any(Subject.class))).thenReturn(subject);
+    @Test
+    void addTest() throws NotFoundService {
+		//Arrange
+        String id = UUID.randomUUID().toString();
+        String name = "Random_Name";
+        Subject subject = new Subject(id, name);
+        when(subjectRepository.save(any(Subject.class))).thenReturn(subject);
 
-		AddSubjectRequest request = new AddSubjectRequest(name);
-		AddSubjectResponse response = subjectService.add(request);
+		//Act
+        AddSubjectRequest request = new AddSubjectRequest(name);
+        AddSubjectResponse response = subjectService.add(request);
 
-		assertNotNull(response);
-		assertEquals(new AddSubjectResponse(id), response);
-	}
+		//Assert
+        assertNotNull(response);
+        assertEquals(new AddSubjectResponse(id), response);
+    }
 
-	@Test
-	void deleteTest() throws NotFoundService {
-		String id = UUID.randomUUID().toString();
-		String name = "Random_Name";
-		Subject subject = new Subject(id, name);
-		when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
-		willDoNothing().given(subjectRepository).deleteById(id);
+    @Test
+    void deleteTest() throws NotFoundService {
+		//Arrange
+        String id = UUID.randomUUID().toString();
+        String name = "Random_Name";
+        Subject subject = new Subject(id, name);
+        when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
+        willDoNothing().given(subjectRepository).deleteById(id);
 
-		DeleteSubjectRequest request = new DeleteSubjectRequest(id);
-		subjectService.delete(request);
+		//Act
+        DeleteSubjectRequest request = new DeleteSubjectRequest(id);
+        subjectService.delete(request);
 
-		Mockito.verify(subjectRepository, times(1)).deleteById(id);
-	}
+		//Assert
+        Mockito.verify(subjectRepository, times(1)).deleteById(id);
+    }
 
-	@Test
-	void deleteTest_ThrowException() {
-		String id = UUID.randomUUID().toString();
-		doAnswer(invocation -> {throw new NotFoundService("invalid subject id");}).when(subjectRepository).findById(id);
+    @Test
+    void deleteTest_ThrowException() {
+		//Arrange
+        String id = UUID.randomUUID().toString();
+        doAnswer(invocation -> {
+            throw new NotFoundService("invalid subject id");
+        }).when(subjectRepository).findById(id);
 
-		DeleteSubjectRequest request = new DeleteSubjectRequest(id);
-		assertThrows(NotFoundService.class, () -> subjectService.delete(request));
-	}
+		//Act
+        DeleteSubjectRequest request = new DeleteSubjectRequest(id);
 
-	@Test
-	void editTest() throws ServiceException {
-		String id = UUID.randomUUID().toString();
-		String name = "Random_Name";
-		String newName = "New_Name";
-		Subject subject = new Subject(id, name);
-		when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
-		doAnswer(invocation -> {subject.setName(newName); return 0;}).when(subjectRepository).update(newName, id);
+		//Assert
+        assertThrows(NotFoundService.class, () -> subjectService.delete(request));
+    }
 
-		EditSubjectRequest request = new EditSubjectRequest(id, newName);
-		subjectService.edit(request);
+    @Test
+    void editTest() throws ServiceException {
+		//Arrange
+        String id = UUID.randomUUID().toString();
+        String name = "Random_Name";
+        String newName = "New_Name";
+        Subject subject = new Subject(id, name);
+        when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
+        doAnswer(invocation -> {
+            subject.setName(newName);
+            return 0;
+        }).when(subjectRepository).update(newName, id);
 
-		Mockito.verify(subjectRepository, times(1)).update(newName, id);
-		assertEquals(new Subject(id, newName), subject);
-	}
+		//Act
+        EditSubjectRequest request = new EditSubjectRequest(id, newName);
+        subjectService.edit(request);
 
-	@Test
-	void editTest_ThrowException() {
-		String id = UUID.randomUUID().toString();
-		String newName = "New_Name";
-		doAnswer(invocation -> {throw new NotFoundService("invalid subject id");}).when(subjectRepository).findById(id);
+		//Assert
+        Mockito.verify(subjectRepository, times(1)).update(newName, id);
+        assertEquals(new Subject(id, newName), subject);
+    }
 
-		EditSubjectRequest request = new EditSubjectRequest(id, newName);
-		assertThrows(NotFoundService.class, () -> subjectService.edit(request));
-	}
+    @Test
+    void editTest_ThrowException() {
+		//Arrange
+        String id = UUID.randomUUID().toString();
+        String newName = "New_Name";
+        doAnswer(invocation -> {
+            throw new NotFoundService("invalid subject id");
+        }).when(subjectRepository).findById(id);
 
-	@Test
-	void getByIdTest() throws NotFoundService {
-		String id = UUID.randomUUID().toString();
-		String name = "Random_Name";
-		Subject subject = new Subject(id, name);
-		when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
+		//Act
+        EditSubjectRequest request = new EditSubjectRequest(id, newName);
 
-		GetSubjectByIdRequest request = new GetSubjectByIdRequest(id);
-		GetSubjectByIdResponse response = subjectService.getById(request);
+		//Assert
+        assertThrows(NotFoundService.class, () -> subjectService.edit(request));
+    }
 
-		assertNotNull(response);
-		assertEquals(new GetSubjectByIdResponse(id, name), response);
-	}
+    @Test
+    void getByIdTest() throws NotFoundService {
+		//Arrange
+        String id = UUID.randomUUID().toString();
+        String name = "Random_Name";
+        Subject subject = new Subject(id, name);
+        when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
 
-	@Test
-	void getByIdTest_ThrowException() throws NotFoundService {
-		String id = UUID.randomUUID().toString();
-		doAnswer(invocation -> {throw new NotFoundService("invalid subject id");}).when(subjectRepository).findById(id);
+		//Act
+        GetSubjectByIdRequest request = new GetSubjectByIdRequest(id);
+        GetSubjectByIdResponse response = subjectService.getById(request);
 
-		GetSubjectByIdRequest request = new GetSubjectByIdRequest(id);
-		assertThrows(NotFoundService.class, () -> subjectService.getById(request));
-	}
+		//Assert
+        assertNotNull(response);
+        assertEquals(new GetSubjectByIdResponse(id, name), response);
+    }
 
-	@Test
-	void getAllTest() throws NotFoundService {
-		String id_1 = UUID.randomUUID().toString();
-		String name_1 = "Random_Name";
-		Subject subject_1 = new Subject(id_1, name_1);
-		String id_2 = UUID.randomUUID().toString();
-		String name_2 = "Random_Name";
-		Subject subject_2 = new Subject(id_2, name_2);
-		when(subjectRepository.findAll()).thenReturn(List.of(subject_1, subject_2));
+    @Test
+    void getByIdTest_ThrowException() {
+		//Arrange
+        String id = UUID.randomUUID().toString();
+        doAnswer(invocation -> {
+            throw new NotFoundService("invalid subject id");
+        }).when(subjectRepository).findById(id);
 
-		List<GetSubjectByIdResponse> response = subjectService.getAll();
+		//Act
+        GetSubjectByIdRequest request = new GetSubjectByIdRequest(id);
 
-		assertNotNull(response);
-		assertEquals(List.of(new GetSubjectByIdResponse(subject_1), new GetSubjectByIdResponse(subject_2)), response);
-	}
+		//Assert
+        assertThrows(NotFoundService.class, () -> subjectService.getById(request));
+    }
 
-	@Test
-	void getAllTest_EmptyList() throws NotFoundService {
-		when(subjectRepository.findAll()).thenReturn(List.of());
+    @Test
+    void getAllTest() {
+		//Arrange
+        String id_1 = UUID.randomUUID().toString();
+        String name_1 = "Random_Name";
+        Subject subject_1 = new Subject(id_1, name_1);
+        String id_2 = UUID.randomUUID().toString();
+        String name_2 = "Random_Name";
+        Subject subject_2 = new Subject(id_2, name_2);
+        when(subjectRepository.findAll()).thenReturn(List.of(subject_1, subject_2));
 
-		List<GetSubjectByIdResponse> response = subjectService.getAll();
+		//Act
+        List<GetSubjectByIdResponse> response = subjectService.getAll();
 
-		assertNotNull(response);
-		assertEquals(List.of(), response);
-	}
+		//Assert
+        assertNotNull(response);
+        assertEquals(List.of(new GetSubjectByIdResponse(subject_1), new GetSubjectByIdResponse(subject_2)), response);
+    }
+
+    @Test
+    void getAllTest_EmptyList() {
+		//Arrange
+        when(subjectRepository.findAll()).thenReturn(List.of());
+
+		//Act
+        List<GetSubjectByIdResponse> response = subjectService.getAll();
+
+		//Assert
+        assertNotNull(response);
+        assertEquals(List.of(), response);
+    }
 }

@@ -49,7 +49,7 @@ public class SubjectService implements ISubjectService {
     }
 
     @Override
-    public List<GetSubjectByIdResponse> getAll() throws NotFoundService {
+    public List<GetSubjectByIdResponse> getAll() {
         return subjectRepository.findAll().stream()
                 .map(o -> new GetSubjectByIdResponse(o.getId(), o.getName()))
                 .toList();

@@ -20,5 +20,5 @@ public interface ISubjectService {
 
     GetSubjectByIdResponse getById(GetSubjectByIdRequest request) throws NotFoundService;
 
-    List<GetSubjectByIdResponse> getAll() throws NotFoundService;
+    List<GetSubjectByIdResponse> getAll();
 }

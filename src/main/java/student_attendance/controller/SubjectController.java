@@ -45,7 +45,7 @@ public class SubjectController {
     }
 
     @GetMapping("/getSubjects")
-    public ResponseEntity<?> getSubjects() throws NotFoundService {
+    public ResponseEntity<?> getSubjects() {
         return new ResponseEntity<>(subjectService.getAll(), HttpStatus.OK);
     }
 }
