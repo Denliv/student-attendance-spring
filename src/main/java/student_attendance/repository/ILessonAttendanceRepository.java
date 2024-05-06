@@ -14,4 +14,9 @@ public interface ILessonAttendanceRepository extends JpaRepository<LessonAttenda
     @Transactional
     @Query("SELECT la FROM LessonAttendance la WHERE la.lesson.id = :lessonId")
     LessonAttendance findAttendanceByLessonId(@Param(value = "lessonId") String lessonId);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM LessonAttendance la WHERE la.lesson.id = :lessonId")
+    void deleteAttendanceByLessonId(@Param(value = "lessonId") String lessonId);
 }

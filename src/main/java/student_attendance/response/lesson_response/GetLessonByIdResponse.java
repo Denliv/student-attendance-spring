@@ -21,7 +21,7 @@ public class GetLessonByIdResponse {
     private final int number;
     private final GetTeacherByIdResponse teacher;
     private final GetStudentGroupByIdResponse group;
-    private final List<GetStudentByIdResponse> students = new ArrayList<>();
+    private List<GetStudentByIdResponse> students = new ArrayList<>();
 
     @ConstructorProperties({"id", "subject", "date", "number", "teacher", "group", "list"})
     public GetLessonByIdResponse(String id,
@@ -37,7 +37,11 @@ public class GetLessonByIdResponse {
         this.number = number;
         this.teacher = teacher;
         this.group = group;
-        students.addAll(list);
+        if (list == null) {
+            students = null;
+        } else {
+            students.addAll(list);
+        }
     }
 
     public GetLessonByIdResponse(Lesson lesson, LessonAttendance lessonAttendance) {
@@ -48,7 +52,7 @@ public class GetLessonByIdResponse {
                 lesson.getNumber(),
                 new GetTeacherByIdResponse(lesson.getTeacher()),
                 new GetStudentGroupByIdResponse(lesson.getGroup()),
-                lessonAttendance.getStudents().stream().map(GetStudentByIdResponse::new).toList()
+                lessonAttendance == null ? null : lessonAttendance.getStudents().stream().map(GetStudentByIdResponse::new).toList()
         );
     }
 }

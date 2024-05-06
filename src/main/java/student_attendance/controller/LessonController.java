@@ -41,13 +41,13 @@ public class LessonController {
         return new ResponseEntity<>(lessonService.getById(request), HttpStatus.OK);
     }
 
-    @GetMapping("/getLessonByGroup")
-    public ResponseEntity<?> getLessonByGroup(@Valid @RequestBody GetLessonsByGroupRequest request) throws NotFoundService {
+    @GetMapping("/getLessonsByGroup")
+    public ResponseEntity<?> getLessonByGroup(@Valid @RequestBody GetLessonsByGroupRequest request) throws ServiceException {
         return new ResponseEntity<>(lessonService.getByGroup(request), HttpStatus.OK);
     }
 
-    @GetMapping("/getLessonByTeacher")
-    public ResponseEntity<?> getLessonByTeacher(@Valid @RequestBody GetLessonsByTeacherRequest request) throws NotFoundService {
+    @GetMapping("/getLessonsByTeacher")
+    public ResponseEntity<?> getLessonByTeacher(@Valid @RequestBody GetLessonsByTeacherRequest request) throws ServiceException {
         return new ResponseEntity<>(lessonService.getByTeacher(request), HttpStatus.OK);
     }
 }

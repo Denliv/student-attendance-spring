@@ -18,7 +18,7 @@ public interface ILessonService {
 
     GetLessonByIdResponse getById(GetLessonByIdRequest request) throws NotFoundService;
 
-    List<GetLessonByIdResponse> getByGroup(GetLessonsByGroupRequest request) throws NotFoundService;
+    List<GetLessonByIdResponse> getByGroup(GetLessonsByGroupRequest request) throws ServiceException;
 
-    List<GetStudentByIdResponse> getByTeacher(GetLessonsByTeacherRequest request) throws NotFoundService;
+    List<GetLessonByIdResponse> getByTeacher(GetLessonsByTeacherRequest request) throws ServiceException;
 }

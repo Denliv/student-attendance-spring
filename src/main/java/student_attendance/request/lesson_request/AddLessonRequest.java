@@ -1,5 +1,7 @@
 package student_attendance.request.lesson_request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -33,14 +35,22 @@ public class AddLessonRequest {
     private final String groupId;
     private final List<@Pattern(regexp = "[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$") String> attendanceList;
 
-    @ConstructorProperties({"subjectId", "date", "number", "teacherId", "groupId", "attendanceList"})
-    public AddLessonRequest(String subjectId, String date, int number, String teacherId, String groupId, List<String> attendanceList) {
+    @JsonCreator
+    public AddLessonRequest(@JsonProperty("subjectId") String subjectId,
+                            @JsonProperty("date") String date,
+                            @JsonProperty("number") int number,
+                            @JsonProperty("teacherId") String teacherId,
+                            @JsonProperty("groupId") String groupId,
+                            @JsonProperty("attendanceList") List<String> attendanceList) {
         this.subjectId = subjectId;
         this.date = date;
         this.number = number;
         this.teacherId = teacherId;
         this.groupId = groupId;
-        this.attendanceList = new ArrayList<>(attendanceList.size());
-        this.attendanceList.addAll(attendanceList);
+        if (attendanceList == null) this.attendanceList = null;
+        else {
+            this.attendanceList = new ArrayList<>(attendanceList.size());
+            this.attendanceList.addAll(attendanceList);
+        }
     }
 }

@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.beans.ConstructorProperties;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -32,10 +33,10 @@ public class EditLessonRequest {
     private final String teacherId;
     @NotNull
     @Pattern(regexp = "[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$")
-    private final String groupId;@NotNull
+    private final String groupId;
     private final List<@Pattern(regexp = "[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$") String> attendanceList;
 
-    @ConstructorProperties({"id", "subjectId", "date", "number", "teacherId", "groupId"})
+    @ConstructorProperties({"id", "subjectId", "date", "number", "teacherId", "groupId", "attendanceList"})
     public EditLessonRequest(String id, String subjectId, String date, int number, String teacherId, String groupId, List<String> attendanceList) {
         this.id = id;
         this.subjectId = subjectId;
@@ -43,6 +44,10 @@ public class EditLessonRequest {
         this.number = number;
         this.teacherId = teacherId;
         this.groupId = groupId;
-        this.attendanceList = attendanceList;
+        if (attendanceList == null) this.attendanceList = null;
+        else {
+            this.attendanceList = new ArrayList<>(attendanceList.size());
+            this.attendanceList.addAll(attendanceList);
+        }
     }
 }
