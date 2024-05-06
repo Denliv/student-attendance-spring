@@ -6,9 +6,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import student_attendance.entity.LessonAttendance;
-import student_attendance.entity.Student;
-
-import java.util.List;
 
 public interface ILessonAttendanceRepository extends JpaRepository<LessonAttendance, String> {
     @Transactional

@@ -5,7 +5,6 @@ import student_attendance.exception.service_exception.ServiceException;
 import student_attendance.request.lesson_request.*;
 import student_attendance.response.lesson_response.AddLessonResponse;
 import student_attendance.response.lesson_response.GetLessonByIdResponse;
-import student_attendance.response.student_response.GetStudentByIdResponse;
 
 import java.util.List;
 

@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import student_attendance.entity.Lesson;
-import student_attendance.entity.LessonAttendance;
 
 import java.util.List;
 

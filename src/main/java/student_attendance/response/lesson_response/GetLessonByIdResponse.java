@@ -1,9 +1,8 @@
 package student_attendance.response.lesson_response;
 
 import lombok.Data;
-import student_attendance.entity.LessonAttendance;
 import student_attendance.entity.Lesson;
-import student_attendance.entity.Student;
+import student_attendance.entity.LessonAttendance;
 import student_attendance.response.student_group_response.GetStudentGroupByIdResponse;
 import student_attendance.response.student_response.GetStudentByIdResponse;
 import student_attendance.response.subject_response.GetSubjectByIdResponse;

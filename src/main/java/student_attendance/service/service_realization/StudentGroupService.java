@@ -32,7 +32,7 @@ public class StudentGroupService implements IStudentGroupService {
     @Override
     public void delete(DeleteStudentGroupRequest request) throws ServiceException {
         groupRepository.findById(request.getId()).orElseThrow(() -> new NotFoundService("invalid group id"));
-        if (studentRepository.findAllByGroupId(request.getId()).isEmpty()){
+        if (studentRepository.findAllByGroupId(request.getId()).isEmpty()) {
             throw new ServiceException("can not delete group with students");
         }
         groupRepository.deleteById(request.getId());
