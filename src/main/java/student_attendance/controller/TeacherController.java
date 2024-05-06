@@ -45,7 +45,7 @@ public class TeacherController {
     }
 
     @GetMapping("/getTeachers")
-    public ResponseEntity<?> getTeachers() throws NotFoundService {
+    public ResponseEntity<?> getTeachers() {
         return new ResponseEntity<>(teacherService.getAll(), HttpStatus.OK);
     }
 }

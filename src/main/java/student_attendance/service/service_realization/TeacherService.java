@@ -54,7 +54,7 @@ public class TeacherService implements ITeacherService {
     }
 
     @Override
-    public List<GetTeacherByIdResponse> getAll() throws NotFoundService {
+    public List<GetTeacherByIdResponse> getAll() {
         return teacherRepository.findAll().stream()
                 .map(o -> new GetTeacherByIdResponse(o.getId(), o.getLastName(), o.getFirstName(), o.getMiddleName()))
                 .toList();

@@ -1,4 +1,4 @@
-package student_attendance;
+package student_attendance.service_tests;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,9 +40,9 @@ class SubjectServiceTests {
         String name = "Random_Name";
         Subject subject = new Subject(id, name);
         when(subjectRepository.save(any(Subject.class))).thenReturn(subject);
-
-		//Act
         AddSubjectRequest request = new AddSubjectRequest(name);
+
+        //Act
         AddSubjectResponse response = subjectService.add(request);
 
 		//Assert
@@ -58,9 +58,9 @@ class SubjectServiceTests {
         Subject subject = new Subject(id, name);
         when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
         willDoNothing().given(subjectRepository).deleteById(id);
-
-		//Act
         DeleteSubjectRequest request = new DeleteSubjectRequest(id);
+
+        //Act
         subjectService.delete(request);
 
 		//Assert
@@ -74,8 +74,6 @@ class SubjectServiceTests {
         doAnswer(invocation -> {
             throw new NotFoundService("invalid subject id");
         }).when(subjectRepository).findById(id);
-
-		//Act
         DeleteSubjectRequest request = new DeleteSubjectRequest(id);
 
 		//Assert
@@ -94,9 +92,9 @@ class SubjectServiceTests {
             subject.setName(newName);
             return 0;
         }).when(subjectRepository).update(newName, id);
-
-		//Act
         EditSubjectRequest request = new EditSubjectRequest(id, newName);
+
+        //Act
         subjectService.edit(request);
 
 		//Assert
@@ -112,8 +110,6 @@ class SubjectServiceTests {
         doAnswer(invocation -> {
             throw new NotFoundService("invalid subject id");
         }).when(subjectRepository).findById(id);
-
-		//Act
         EditSubjectRequest request = new EditSubjectRequest(id, newName);
 
 		//Assert
@@ -127,9 +123,9 @@ class SubjectServiceTests {
         String name = "Random_Name";
         Subject subject = new Subject(id, name);
         when(subjectRepository.findById(id)).thenReturn(Optional.of(subject));
-
-		//Act
         GetSubjectByIdRequest request = new GetSubjectByIdRequest(id);
+
+        //Act
         GetSubjectByIdResponse response = subjectService.getById(request);
 
 		//Assert
@@ -144,8 +140,6 @@ class SubjectServiceTests {
         doAnswer(invocation -> {
             throw new NotFoundService("invalid subject id");
         }).when(subjectRepository).findById(id);
-
-		//Act
         GetSubjectByIdRequest request = new GetSubjectByIdRequest(id);
 
 		//Assert

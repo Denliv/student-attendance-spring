@@ -20,5 +20,5 @@ public interface ITeacherService {
 
     GetTeacherByIdResponse getById(GetTeacherByIdRequest request) throws NotFoundService;
 
-    List<GetTeacherByIdResponse> getAll() throws NotFoundService;
+    List<GetTeacherByIdResponse> getAll();
 }
