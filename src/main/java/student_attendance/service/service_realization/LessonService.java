@@ -97,8 +97,9 @@ public class LessonService implements ILessonService {
                 request.getId()
         );
         Lesson lesson = lessonRepository.findById(request.getId()).orElseThrow(() -> new NotFoundService("invalid lesson id"));
-        lessonAttendanceRepository.findAttendanceByLessonId(request.getId());
-        lessonAttendanceRepository.deleteAttendanceByLessonId(request.getId());
+        if (lessonAttendanceRepository.findAttendanceByLessonId(request.getId()) != null) {
+            lessonAttendanceRepository.deleteAttendanceByLessonId(request.getId());
+        }
         if (request.getAttendanceList() != null) {
             LessonAttendance lessonAttendance = new LessonAttendance(
                     null,
